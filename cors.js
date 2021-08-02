@@ -53,21 +53,38 @@
 
 
 // server.listen(3000)
-
-
+// app.use((req, res, next) => {
+//    if(req.method === 'OPTIONS'){
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-PINGOTHER');
+//     // res.setHeader('Access-Control-Allow-Methods', 'GET');
+//     res.end();
+//    } else {
+//       // 普通请求
+//       res.setHeader('Access-Control-Allow-Origin', '*');
+//       next()
+//    }
+// });
 const express = require('express');
-const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use((req, res, next) => {
+   if(req.method === 'OPTIONS'){
+      // 预检请求
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'X-PINGOTHER');
+      res.end();
+   } else {
+      // 普通请求
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      next()
+   }
+});
 app.get('/get', (request, response) => {
-    // response.setHeader('Access-Control-Allow-Credentials', true);
-    // response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('X-My-Custom-Header', 'test custom header');
+    response.setHeader('Access-Control-Expose-Headers', 'X-My-Custom-Header');
     response.json({method: 'get'})
 });
-app.get('/post', (request, response) => response.json({method: 'post'}));
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`Facts Events service listening at http://localhost:${PORT}`)
+app.listen(3000, () => {
+  console.log(`service listening at http://localhost:3000`)
 })
