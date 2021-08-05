@@ -89,7 +89,7 @@ app.get('/get', (req, res) => {
    const urlSplitData = req.url.split('?')
    req.path = urlSplitData[0]
    req.query = querystring.parse(urlSplitData[1])
-   const time = (req.query.id * 1000) + Math.round(Math.random() * 10) * 100
+   const time = 3000 + Math.round(Math.random() * 10) * 2 * 1000
    console.log('get..', req.query.id)
    res.setHeader('Connection', 'Keep-Alive');
    res.setHeader('timeout', '60');
