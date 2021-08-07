@@ -8,6 +8,7 @@ app.use((req, res, next) => {
       res.end();
    } else {
       // 普通请求
+      console.log('普通请求....')
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9001');
       res.setHeader('Vary', 'Origin');
       res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -17,6 +18,9 @@ app.use((req, res, next) => {
 app.get('/login', (req, res) => {
    res.setHeader('Set-Cookie', ['type=ninja;Secure;SameSite=None;', 'language=javascript;Secure', 'name=lzc;SameSite=Strict']);
    res.json({method: 'get', cookie: req.headers.cookie})
+});
+app.put('/put', (req, res) => {
+   res.json({method: 'put', cookie: req.headers.cookie})
 });
 app.get('/get', (req, res) => {
    const urlSplitData = req.url.split('?')
